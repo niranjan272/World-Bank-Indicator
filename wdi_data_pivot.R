@@ -38,9 +38,3 @@ agricultural_land_clustering$cluster <- as.factor(agricultural_land_clustering$c
 clusplot(agricultural_land[,4:5],agricultural_land_clustering$cluster,colour = T,shade = T)
 plotcluster(wdi_gini_index[,3:4],wdi_gini_index_clustering$cluster)
 plot(wdi_gini_index$Year, wdi_gini_index$GINI.index..World.Bank.estimate.,col=wdi_gini_index_clustering$cluster)
-#
-#
-
-ggplot(wdi_gini_index,aes(x = Year, y = wdi_gini_index$Agricultural.land....of.land.area., 
-                          colour = wdi_gini_index$CountryName)) +
-  geom_point(stat = "identity",size = 5)
