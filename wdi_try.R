@@ -11,11 +11,12 @@ data_try1 <- reshape(data_try,
                      direction = "wide")
 colnames(data_try1)[4] <- "Health_Expenditure"
 colnames(data_try1)[5] <- "Life_Expectancy"
-
+#Data Filter
 data_try_filtered <- subset(data_try1,data_try1$CountryCode == "IND")
 data_try_filtered_co2 <- merge(data_try_filtered,data_co2_emission_filtered, by = "Year")
 colnames(data_try_filtered_co2)[6] <- "CO2_emission"
 colnames(data_try_filtered_co2)
+#Linear Regression
 data_linear_regression <- lm(Life_Expectancy ~ Health_Expenditure + CO2_emission,
                              data = data_try_filtered_co2)
 summary(data_linear_regression)
