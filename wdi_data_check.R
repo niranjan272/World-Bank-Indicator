@@ -67,5 +67,7 @@ head(data_health,5)
 data_poverty <- subset(data_indicators_series,data_indicators_series$Topic_Main == 'Poverty')
 head(data_poverty,5)
 
-
+colnames(data_environment)
+data_environment_filtered <- subset(data_environment,IndicatorName == "Access to electricity (% of population)")
+write.csv(data_environment_filtered,"..\\..\\world-development-indicators\\data_environment.csv")
 
