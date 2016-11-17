@@ -21,12 +21,20 @@ head(country_continent_mapping)
 
 
 #Merge Indicaotr Data with Continent and Country mapping
-indicator_pivot_continent <- merge(indicator_pivot,country_continent_mapping,by = "CountryName")
+indicator_pivot_continent <- merge(indicator_pivot,country_continent_mapping,by = "CountryName",all.x = T)
 ncol(indicator_pivot_continent)
+
+
 #Reordering Columns
 indicator_pivot_continent <- indicator_pivot_continent[,c(1348,1:1347)]
 colnames(indicator_pivot_continent)[c(1,2,3,4,5)]
 count(indicator_pivot_continent,"Continent")
+
+#checking country names
+data_county_name  <- indicator_pivot_continent[,1:2]
+write.csv(data_county_name,"..\\..\\world-development-indicators\\data_county_name.csv")
+indicator_pivot_continent <- na.omit(indicator_pivot_continent)
+any(is.na(indicator_pivot_continent))
 
 #Agricultural land (% of land area)
 agricultural_land <- subset(indicator_pivot_continent[c(1,2,3,4,9)])
