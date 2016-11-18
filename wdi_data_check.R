@@ -17,20 +17,29 @@ data_series <- read.csv("..\\..\\world-development-indicators\\Series.csv")
 head(data_series)
 data_series <- data_series[1:2]
 colnames(data_series)[1] <- "IndicatorCode"
-
+colnames(data_series)
+data_series <- data_series[,c(1,2,3)]
+head(data_series,5)
+colnames(data_series)
 #introduce New Column
 data_series$Topic_Main <-NA
 data_series$Topic_Main <- substr(data_series$Topic,1,regexpr(':',data_series$Topic)-1)
 head(data_series,5)
+colnames(data_series)
+write.csv(data_series,file = "..\\..\\world-development-indicators\\data_indicator_topic.csv")
 
 #Combine Indicator and Series data
 data_indicators_series <- merge(data_read,data_series,by = "IndicatorCode")
 head(data_indicators_series,5)
-                                                
-#Number of Observations per Country Per Indicator
-count(data_indicators_series,"Topic")
-data_check <- count(data_indicators_series,c("CountryName","Year","Topic","Topic_Main"))
-#write.csv(data_check,file = "..\\data_check.csv")
+
+#reordering columns
+ncol(data_indicators_series)
+colnames(data_indicators_series)   
+data_indicators_series <- data_indicators_series[,c(9,1:8)]
+colnames(data_indicators_series)[5] <- "IndicatorName"
+data_indicators_series <- data_indicators_series[,1:8]
+colnames(data_indicators_series)   
+
 
 unique(data_indicators_series$Topic_Main)
 #Seggregate Data as per topic

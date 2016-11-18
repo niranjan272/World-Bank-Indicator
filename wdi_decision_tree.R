@@ -10,4 +10,4 @@ head(countries_hdi_index,5)
 count(countries_hdi_index,"hdi_index")
 
 indicator_hdi_index <- merge(indicator_pivot_continent,countries_hdi_index,by = "CountryName", all.x = T)
-                             
+ncol(indicator_hdi_index)
