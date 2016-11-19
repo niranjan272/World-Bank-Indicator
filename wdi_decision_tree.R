@@ -6,6 +6,7 @@ library(fpc)
 library(rpart)
 library(stringr)
 library(caTools)
+library(e1071)
 set.seed(42)
 
 #load hdi index file
@@ -52,6 +53,8 @@ colnames(data_naive_bayes)[5] <- "GNI_per_capita"
 colnames(data_naive_bayes)[6] <- "Literacy_Rate"
 colnames(data_naive_bayes)[7] <- "Life_Expectancy"
 colnames(data_naive_bayes)
+naive_bayes_indicator <- naiveBayes(hdi_index ~ GNI_per_capita+ Literacy_Rate + Life_Expectancy,
+                                    data = data_naive_bayes)
 
 #Military Expenditure for South Asian Countries
 years_filter  <- c(2010,2009,2008,2007,2006)
