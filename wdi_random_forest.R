@@ -1,0 +1,27 @@
+setwd("E:\\Fall'16\\03 BUAN 6356\\Project\\Codes\\World-Bank-Indicator\\")
+library(ggplot2)
+library(randomForest)
+set.seed(42)
+#Filter data for GNI, literacy rate and life expectancy
+hdi_index_filter = c(1,2,3)
+hdi_index_random_forest <- subset(indicator_hdi_index[,c(1,2,3,4,820,852,1212,1349)],
+                       Year == 2008 & hdi_index %in% hdi_index_filter)
+colnames(hdi_index_random_forest)[5] <- "GNI_per_capita"
+colnames(hdi_index_random_forest)[6] <- "Literacy_Rate"
+colnames(hdi_index_random_forest)[7] <- "Life_Expectancy"
+colnames(hdi_index_random_forest)
+
+#Split data
+id_split <- sample(seq(1,2),size = nrow(hdi_index_random_forest),replace = T, prob = c(0.7,0.3))
+train <- hdi_index_random_forest[id_split == 1,]
+test  <- hdi_index_random_forest[id_split == 2,]
+write.csv(test,"test.csv")
+
+#train dataset using random forest
+train_random_forest <- randomForest(train[,c(5,6,7)],as.factor(train$hdi_index),ntree = 50)
+summary(train_random_forest)
+conf  <- train_random_forest$confusion
+conf
+#predict results
+test_random_forest <- predict(train_random_forest,test[,c(5,6,7)])
+write.csv(test_random_forest,"test_random_forest.csv")

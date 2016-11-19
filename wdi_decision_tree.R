@@ -7,6 +7,7 @@ library(rpart)
 library(stringr)
 library(caTools)
 library(e1071)
+library(randomForest)
 set.seed(42)
 
 #load hdi index file
@@ -46,15 +47,6 @@ hdi_index_prediction <- predict(hdi_index_train_tree,hdi_index_test[,5:6])
 write.csv(hdi_index_prediction,"..\\..\\world-development-indicators\\hdi_index_prediction.csv")
 
 
-#Naive Bayes
-data_naive_bayes <- subset(indicator_hdi_index[,c(1,2,3,4,820,852,1212,1349)],Year == 2008)
-colnames(data_naive_bayes)
-colnames(data_naive_bayes)[5] <- "GNI_per_capita"
-colnames(data_naive_bayes)[6] <- "Literacy_Rate"
-colnames(data_naive_bayes)[7] <- "Life_Expectancy"
-colnames(data_naive_bayes)
-naive_bayes_indicator <- naiveBayes(hdi_index ~ GNI_per_capita+ Literacy_Rate + Life_Expectancy,
-                                    data = data_naive_bayes)
 
 #Military Expenditure for South Asian Countries
 years_filter  <- c(2010,2009,2008,2007,2006)
