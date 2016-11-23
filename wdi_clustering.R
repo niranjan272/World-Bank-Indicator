@@ -145,10 +145,35 @@ ggplot(data_imports_goods_services,aes(x = Imports_Goods_Services, y = factor(Ye
   ggtitle(expression(atop("Imports of Goods and Services(% of GDP) over Year",
                           atop(italic("Years => 3  = 2001-2004 , 2 = 2005-2008 , 3 = 2009-2012"), ""))))
   
-  
-  
-  
+#Export Data for Plants, Animal, Birds, Mammals
+data_threatened <- subset(indicator_pivot_continent[,c(1,2,3,4,407,416,417,418)],Year == 2015) 
+write.csv(data_threatened,"data_threatened.csv")  
+colnames(data_threatened)  
+colnames(data_threatened)[5] <- "Bird_Species_Threatened"  
+colnames(data_threatened)[6] <- "Fish_Species_Threatened"  
+colnames(data_threatened)[7] <- "Plant_Species_Threatened"  
+colnames(data_threatened)[8] <- "Mammal_Species_Threatened"  
 
+any(is.na(data_threatened))
+wss <- (nrow(data_threatened[,c(5,6,7,8)])-1)*sum(apply(data_threatened[,c(5,6,7,8)],2,var))
+for (i in 2:15) wss[i] <- sum(kmeans(data_threatened[,c(5,6,7,8)],centers=i)$withinss)
+plot(1:15, wss, type="b", xlab="Number of Clusters",ylab="Within groups sum of squares")
+
+
+threatened_species <- kmeans(data_threatened[,c(4,5)],4,iter.max = 10,nstart = 10)
+clusplot(data_threatened[,c(4,5)],threatened_species$cluster,colour = T,shade = T)
+
+threatened_species$centers
+ggplot(data_threatened,aes(x = Continent, y = Bird_Species_Threatened),
+       colour = factor(threatened_species$cluster)) + 
+  geom_point(colour = threatened_species$cluster,size = 2) +
+  xlab("Continent") + 
+  ggtitle("Birds Species Threatened") +
+  theme(axis.text.x = element_text(angle = 35, hjust = 1))
+
+geom_text_repel(aes(label= data_threatened$Bird_Species_Threatened),
+                color = 'Black',box.padding = unit(0.35, "lines"),
+                point.padding = unit(0.5, "lines")) + ylab("Years") + 
 
 
 
