@@ -14,6 +14,19 @@ colnames(hdi_index_random_forest)[7] <- "Life_Expectancy"
 colnames(hdi_index_random_forest)
 hdi_index_random_forest_1 <- hdi_index_random_forest
 #write.csv(hdi_index_random_forest,"main_file.csv")
+
+#Take average of the values
+average_parameter <- function(x){
+  colnames(x)
+  x <- x[!duplicated(x),]
+  x_filter <- x[,c(1,5,6,7,8)] 
+  data_average <- aggregate(x_filter,by = list(x_filter$CountryName), FUN = mean, na.rm = T)
+  data_average <- data_average[!duplicated(data_average),]
+  #write.csv(data_average,"data_average.csv")
+  colnames(data_average)
+  return(data_average)
+}
+
 hdi_index_random_forest <- average_parameter(hdi_index_random_forest_1)
 #Split data
 id_split <- sample(seq(1,2),size = nrow(hdi_index_random_forest),replace = T, prob = c(0.7,0.3))
@@ -36,15 +49,3 @@ conf
 test_random_forest <- predict(train_random_forest,test[,c(3,4,5)])
 write.csv(test_random_forest,"test_random_forest.csv")
 
-#Take average of the values
-average_parameter <- function(x){
-  colnames(x)
-  x <- x[!duplicated(x),]
-  x_filter <- x[,c(1,5,6,7,8)] 
-  data_average <- aggregate(x_filter,by = list(x_filter$CountryName), FUN = mean, na.rm = T)
-  data_average <- data_average[!duplicated(data_average),]
-  #write.csv(data_average,"data_average.csv")
-  colnames(data_average)
-  return(data_average)
-}
-average_parameter(train)
