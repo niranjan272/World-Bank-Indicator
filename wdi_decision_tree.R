@@ -20,10 +20,15 @@ indicator_hdi_index <- merge(indicator_pivot_continent,countries_hdi_index,by = 
 ncol(indicator_hdi_index)
 
 #Data for decision tree
-indicator_hdi_index_filtered <- subset(indicator_hdi_index[,c(1,2,3,4,1237,1240,1349)],Year == 2009)
+indicator_hdi_index_filtered <- subset(indicator_hdi_index[,c(1,2,3,4,820,852,1212,1349)],Year == 2009)
 colnames(indicator_hdi_index_filtered)
 #write.csv(indicator_hdi_index_filtered,"..\\..\\world-development-indicators\\indicator_hdi_filtered.csv")
 head(indicator_hdi_index_filtered,5)
+colnames(indicator_hdi_index_filtered)[5] <- "GNI_per_capita"
+colnames(indicator_hdi_index_filtered)[6] <- "Literacy_Rate"
+colnames(indicator_hdi_index_filtered)[7] <- "Life_Expectancy"
+colnames(indicator_hdi_index_filtered)
+
 
 #Split data
 id_split <- sample(seq(1,2),size = nrow(indicator_hdi_index_filtered),replace = T, prob = c(0.7,0.3))
@@ -34,16 +39,16 @@ nrow(hdi_index_train)
 write.csv(hdi_index_test,"..\\..\\world-development-indicators\\hdi_index_test.csv")
 colnames(hdi_index_test)
 
+
 #deicion tree
 head(hdi_index_train,5)
-hdi_index_train_tree <- rpart(hdi_index ~ Urban.population....of.total. +
-                                Rural.population....of.total.population.,
+hdi_index_train_tree <- rpart(factor(hdi_index) ~ GNI_per_capita + Literacy_Rate + Life_Expectancy,
                                data = hdi_index_train,method = "class")
 
 plot(hdi_index_train_tree,uniform = T,main = "HDI Index")
 text(hdi_index_train_tree,use.n = T,all = T,cex = 0.8)
 summary(hdi_index_train_tree)
-hdi_index_prediction <- predict(hdi_index_train_tree,hdi_index_test[,5:6])
+hdi_index_prediction <- predict(hdi_index_train_tree,hdi_index_test[,5:7], type = "class")
 write.csv(hdi_index_prediction,"..\\..\\world-development-indicators\\hdi_index_prediction.csv")
 
 

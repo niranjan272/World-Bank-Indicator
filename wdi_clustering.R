@@ -154,15 +154,24 @@ colnames(data_threatened)[6] <- "Fish_Species_Threatened"
 colnames(data_threatened)[7] <- "Plant_Species_Threatened"  
 colnames(data_threatened)[8] <- "Mammal_Species_Threatened"  
 
+#Determine optimal number of clusters
 any(is.na(data_threatened))
 wss <- (nrow(data_threatened[,c(5,6,7,8)])-1)*sum(apply(data_threatened[,c(5,6,7,8)],2,var))
 for (i in 2:15) wss[i] <- sum(kmeans(data_threatened[,c(5,6,7,8)],centers=i)$withinss)
 plot(1:15, wss, type="b", xlab="Number of Clusters",ylab="Within groups sum of squares")
 
+#Kmeans
+threatened_species <- kmeans(data_threatened[,c(4,5,6,7,8)],4,iter.max = 10,nstart = 10)
+threatened_species$centers
 
-threatened_species <- kmeans(data_threatened[,c(4,5)],4,iter.max = 10,nstart = 10)
-clusplot(data_threatened[,c(4,5)],threatened_species$cluster,colour = T,shade = T)
+#plot CLustering output
+plot(data_threatened[,c(5,6,7,8)], col = threatened_species$cluster)
+points(threatened_species$centers[,c("Bird_Species_Threatened","Fish_Species_Threatened",
+                                     "Plant_Species_Threatened","Mammal_Species_Threatened")],
+       col =  1:4, pch = 8, cex = 2)
 
+
+#Cluster plot of threatend bird species
 threatened_species$centers
 ggplot(data_threatened,aes(x = Continent, y = Bird_Species_Threatened),
        colour = factor(threatened_species$cluster)) + 
@@ -170,12 +179,6 @@ ggplot(data_threatened,aes(x = Continent, y = Bird_Species_Threatened),
   xlab("Continent") + 
   ggtitle("Birds Species Threatened") +
   theme(axis.text.x = element_text(angle = 35, hjust = 1))
-
-geom_text_repel(aes(label= data_threatened$Bird_Species_Threatened),
-                color = 'Black',box.padding = unit(0.35, "lines"),
-                point.padding = unit(0.5, "lines")) + ylab("Years") + 
-
-
 
 
   
