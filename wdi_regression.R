@@ -8,18 +8,26 @@ list_columns <- c(1,2,3,4,382,391,396,402,403,406,410,1035,1211,1212,1213,1229)
 list_year <- c(2000:2011)
 data_life_expectancy_emission <- subset(indicator_pivot_continent[,list_columns],Year %in% list_year)
 colnames(data_life_expectancy_emission)
-write.csv(data_life_expectancy_emission,"data+life_expectancy_emission.csv")
+#write.csv(data_life_expectancy_emission,"data+life_expectancy_emission.csv")
 
 
 #Filter Data for emission, life expectancy, immunization
 list_columns <- c(1,2,3,4,382,980,981,1035,1212,1229)
 data_life_expectancy_emission <- subset(indicator_pivot_continent[,list_columns],Year %in% list_year)
-#colnames(data_life_expectancy_emission)
-write.csv(data_life_expectancy_emission,"data+life_expectancy_emission.csv")
 colnames(data_life_expectancy_emission) <- c('Continent','CountryName','CountryCode','Year','CO2_Emission',
                                              'Immunization_DPT','Immunization_Measles','Health_Expenditure',
                                              'Life_expectancy_at_birth','Population_Total')
 colnames(data_life_expectancy_emission)
+nrow(data_life_expectancy_emission)
+
+#Data Clean
+any(is.na(data_life_expectancy_emission))
+data_life_expectancy_emission$col_sum <- 0
+list_sum_col <- c(5,6,7,9,10)
+data_life_expectancy_emission$col_sum <- rowSums(data_life_expectancy_emission[,list_sum_col])
+data_life_expectancy_emission <- subset(data_life_expectancy_emission,col_sum != 0)
+data_life_expectancy_emission <- data_life_expectancy_emission[ !rowSums(data_life_expectancy_emission[,colnames(data_life_expectancy_emission)[(list_sum_col)]]==0)>=1, ]
+nrow(data_life_expectancy_emission)
 
 
 #Function for linear regression 

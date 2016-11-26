@@ -9,8 +9,6 @@ library(gridExtra)
 list_countries <- c('Australia','Canada','Saudi Arabia','United States','India','Russia',
                     'South Africa','Turkey','Argentina','Brazil','Mexico','France','Germany',
                     'Italy','United Kingdom','China','Indonesia','Japan','South Korea')
-#Filter G8 Countries
-#list_countries <- c('Canada','United States','Russia','France','Germany','Italy','United Kingdom','Japan')
 
 #list_year  <- c(2008,2009,2007)
 list_year  <- c(2012,2011,2010,2009,2008,2007,2006,2005,2004,2003,2002,2001)
@@ -19,13 +17,12 @@ list_year  <- c(2012,2011,2010,2009,2008,2007,2006,2005,2004,2003,2002,2001)
 data_exports_goods_services <- subset(indicator_pivot_continent[,c(1,2,3,4,688)],
                                       CountryName %in% list_countries &
                                         Year %in% list_year) 
-write.csv(data_exports_goods_services,"data_export_services_goods.csv")
+#write.csv(data_exports_goods_services,"data_export_services_goods.csv")
 colnames(data_exports_goods_services)
 colnames(data_exports_goods_services)[5] <- "Exports_Goods_Services"
 
 #Clean data 
 data_exports_goods_services <- subset(data_exports_goods_services, Exports_Goods_Services != 0)
-write.csv(data_exports_goods_services,"data_export_services_goods_clean.csv")
 count(data_exports_goods_services,c("Year","CountryName"))
 #find the average for four years
 average_exports <- function(x,y){
@@ -86,13 +83,12 @@ ggplot(data_exports_goods_services,aes(x = Exports_Goods_Services, y = factor(Ye
 data_imports_goods_services <- subset(indicator_pivot_continent[,c(1,2,3,4,711)],
                                       CountryName %in% list_countries &
                                         Year %in% list_year) 
-write.csv(data_imports_goods_services,"data_import_services_goods.csv")
+#write.csv(data_imports_goods_services,"data_import_services_goods.csv")
 colnames(data_imports_goods_services)
 colnames(data_imports_goods_services)[5] <- "Imports_Goods_Services"
 
 #Clean data 
 data_imports_goods_services <- subset(data_imports_goods_services, Imports_Goods_Services != 0)
-write.csv(data_imports_goods_services,"data_import_services_goods_clean.csv")
 
 #find the average for four years
 average_imports <- function(x,y){
