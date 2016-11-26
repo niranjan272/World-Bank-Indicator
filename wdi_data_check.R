@@ -4,17 +4,13 @@ library(plyr)
 #Read Indicators Data
 data_read <- read.csv("..\\..\\world-development-indicators\\Indicators.csv")
 head(data_read)
-na_values = which(is.na(data_read$CountryName))
-head(na_values,5)
-
-#data check
-data_check <- subset(data_read,IndicatorName == "Net financial flows, RDB concessional (NFL, current US$)")
-head(data_check,5)
-write.csv(data_check,"..\\..\\world-development-indicators\\data_check.csv")
+str(data_read)
 
 #Read Series
 data_series <- read.csv("..\\..\\world-development-indicators\\Series.csv")
-head(data_series)
+#head(data_series)
+str(data_series)
+
 data_series <- data_series[1:2]
 colnames(data_series)[1] <- "IndicatorCode"
 colnames(data_series)

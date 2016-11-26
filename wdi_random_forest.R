@@ -43,6 +43,8 @@ colnames(train)
 train_random_forest <- randomForest(train[,c(3,4,5)],
                                     as.factor(train[,6]),ntree = 50)
 summary(train_random_forest)
+print(train_random_forest)
+importance(train_random_forest)
 conf  <- train_random_forest$confusion
 conf
 #predict results

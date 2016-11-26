@@ -5,18 +5,13 @@ library(plyr)
 library(fpc)
 #Load File
 indicator_pivot  <- read.csv("..\\..\\world-development-indicators\\indiacator_pivot_names.csv",na.strings = "..")
+indicator_pivot_desc <- str(indicator_pivot)
 
-#Load Series data
-data_series <- read.csv("..\\..\\world-development-indicators\\Series.csv")
-head(data_series)
-data_series$Topic_Main <-NA
-data_series$Topic_Main <- substr(data_series$Topic,1,regexpr(':',data_series$Topic)-1)
-data_series_filtered <- data_series[c("Topic","Topic_Main")]
-head(data_series_filtered,1)
-colnames(indicator_pivot)
+#Run data cleaning code (wdi_data_clean.R)
 
 #Load Country- Continent Mapping
 country_continent_mapping <- read.csv("..\\..\\world-development-indicators\\continent_country_mapping.csv")
+str(country_continent_mapping)
 head(country_continent_mapping)
 
 
@@ -29,6 +24,8 @@ ncol(indicator_pivot_continent)
 indicator_pivot_continent <- indicator_pivot_continent[,c(1348,1:1347)]
 colnames(indicator_pivot_continent)[c(1,2,3,4,5)]
 count(indicator_pivot_continent,"Continent")
+
+#Run data cleaning code (wdi_data_clean.R)
 
 #checking country names
 data_county_name  <- indicator_pivot_continent[,1:2]
