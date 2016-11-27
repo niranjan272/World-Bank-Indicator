@@ -10,20 +10,19 @@ list_countries <- c('Australia','Canada','Saudi Arabia','United States','India',
                     'South Africa','Turkey','Argentina','Brazil','Mexico','France','Germany',
                     'Italy','United Kingdom','China','Indonesia','Japan','South Korea')
 
-#list_year  <- c(2008,2009,2007)
 list_year  <- c(2012,2011,2010,2009,2008,2007,2006,2005,2004,2003,2002,2001)
 
 #Extract Data for Goods and Service Exports
 data_exports_goods_services <- subset(indicator_pivot_continent[,c(1,2,3,4,688)],
                                       CountryName %in% list_countries &
                                         Year %in% list_year) 
-#write.csv(data_exports_goods_services,"data_export_services_goods.csv")
 colnames(data_exports_goods_services)
 colnames(data_exports_goods_services)[5] <- "Exports_Goods_Services"
 
 #Clean data 
 data_exports_goods_services <- subset(data_exports_goods_services, Exports_Goods_Services != 0)
 count(data_exports_goods_services,c("Year","CountryName"))
+
 #find the average for four years
 average_exports <- function(x,y){
   data <- x
@@ -66,6 +65,7 @@ plot(1:15, wss, type="b", xlab="Number of Clusters",ylab="Within groups sum of s
 #Apply kmeans 
 exports_kmeans <- kmeans(data_exports_goods_services[,c(2,3)],4,iter.max = 10,nstart = 10)
 exports_kmeans$centers
+exports_kmeans
 ggplot(data_exports_goods_services,aes(x = Exports_Goods_Services, y = factor(Year)),
        colour = factor(exports_kmeans$cluster)) + geom_point(colour = exports_kmeans$cluster,size = 2)+
   geom_text_repel(aes(label= data_exports_goods_services$CountryName),
@@ -73,7 +73,7 @@ ggplot(data_exports_goods_services,aes(x = Exports_Goods_Services, y = factor(Ye
                   point.padding = unit(0.5, "lines")) + ylab("Years") + 
   xlab("Exports of Goods and Services(% of GDP)") + 
   ggtitle(expression(atop("Exports of Goods and Services(% of GDP) over Year",
-                          atop(italic("Years => 3  = 2001-2004 , 2 = 2005-2008 , 3 = 2009-2012"), ""))))
+                          atop(italic("Years =>  3 = 2001-2004 , 2 = 2005-2008 , 1 = 2009-2012"), ""))))
 
 
 ###############################################
@@ -131,6 +131,7 @@ plot(1:15, wss, type="b", xlab="Number of Clusters",ylab="Within groups sum of s
 #Optial Number of clusters are 4
 
 imports_kmeans <- kmeans(data_imports_goods_services[,c(2,3)],4,iter.max = 10,nstart = 10)
+imports_kmeans
 imports_kmeans$centers
 ggplot(data_imports_goods_services,aes(x = Imports_Goods_Services, y = factor(Year)),
        colour = factor(imports_kmeans$cluster)) + geom_point(colour = imports_kmeans$cluster,size = 2)+
@@ -139,7 +140,7 @@ ggplot(data_imports_goods_services,aes(x = Imports_Goods_Services, y = factor(Ye
                   point.padding = unit(0.5, "lines")) + ylab("Years") + 
   xlab("Imports of Goods and Services(% of GDP)") + 
   ggtitle(expression(atop("Imports of Goods and Services(% of GDP) over Year",
-                          atop(italic("Years => 3  = 2001-2004 , 2 = 2005-2008 , 3 = 2009-2012"), ""))))
+                          atop(italic("Years =>  3 = 2001-2004 , 2 = 2005-2008 , 1 = 2009-2012"), ""))))
   
 #Export Data for Plants, Animal, Birds, Mammals
 data_threatened <- subset(indicator_pivot_continent[,c(1,2,3,4,407,416,417,418)],Year == 2015) 

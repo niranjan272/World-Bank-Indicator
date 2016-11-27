@@ -1,0 +1,5 @@
+setwd("E:\\Fall'16\\03 BUAN 6356\\Project\\Codes\\World-Bank-Indicator\\")
+head(indicator_pivot_continent,5)
+ncol(indicator_pivot_continent)
+data_corr <- cor(indicator_pivot_continent[,c(5:1348)])
+write.csv(data_corr,"data_correlation.csv")

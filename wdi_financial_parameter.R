@@ -1,7 +1,3 @@
-467
-468
-469
-776
 setwd("E:\\Fall'16\\03 BUAN 6356\\Project\\Codes\\World-Bank-Indicator\\")
 library(ggplot2)
 library(plyr)

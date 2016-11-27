@@ -84,8 +84,4 @@ geom_point(data = center_cluster, aes(x=factor(Year),y= center_cluster$Access.to
 
 ggplot(electricty_access_country_year,aes(x = factor(CountryName), y = electricty_access_country_year$Access.to.electricity....of.population.,
                                    colour  = factor(electricity_access_clustering$cluster))) + geom_point() 
-#+
- # geom_point(data = center_cluster, aes(x=factor(Year),y= center_cluster$Access.to.electricity....of.population.,colour  = 'Center')) + 
-  #geom_point(data = center_cluster, aes(x=factor(Year),y= center_cluster$Access.to.electricity....of.population.,colour = 'Center'), 
-   #          size=5.2,alpha=.3) + ylab("Access to electricity (% of population)") + xlab("Year")
-as.data.frame(electricity_access_clustering$centers)
+

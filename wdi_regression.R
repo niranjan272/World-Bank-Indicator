@@ -83,7 +83,7 @@ colnames(regression_data_all_melt)[4] <- "Value"
 regression_data_all_melt_filter <- subset(regression_data_all_melt,Value == "TRUE")
 head(regression_data_all_melt_filter,30)
 ggplot(regression_data_all_melt_filter,aes(x = CountryName ,y = Parameter, colour = "r_squared")) + 
-  geom_point(size = 3,colour = "black") +
+  geom_point(size = 3) +
   geom_text_repel(aes(label= paste(round(regression_data_all_melt_filter$r_squared,4)*100,"%")),
                   color = 'Black',box.padding = unit(0.35, "lines"),point.padding = unit(0.5, "lines")) + 
   ggtitle("Life Expectancy,Significant Parameters - CountryWise ")

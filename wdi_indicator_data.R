@@ -8,35 +8,21 @@ str(data_read)
 
 #Read Series
 data_series <- read.csv("..\\..\\world-development-indicators\\Series.csv")
-#head(data_series)
 str(data_series)
 
+#Filter Data Series 
 data_series <- data_series[1:2]
 colnames(data_series)[1] <- "IndicatorCode"
-colnames(data_series)
-data_series <- data_series[,c(1,2,3)]
 head(data_series,5)
-colnames(data_series)
 #introduce New Column
 data_series$Topic_Main <-NA
 data_series$Topic_Main <- substr(data_series$Topic,1,regexpr(':',data_series$Topic)-1)
 head(data_series,5)
-colnames(data_series)
-write.csv(data_series,file = "..\\..\\world-development-indicators\\data_indicator_topic.csv")
 
 #Combine Indicator and Series data
 data_indicators_series <- merge(data_read,data_series,by = "IndicatorCode")
 head(data_indicators_series,5)
-
-#reordering columns
-ncol(data_indicators_series)
-colnames(data_indicators_series)   
-data_indicators_series <- data_indicators_series[,c(9,1:8)]
-colnames(data_indicators_series)[5] <- "IndicatorName"
-data_indicators_series <- data_indicators_series[,1:8]
-colnames(data_indicators_series)   
-
-
+count(data_indicators_series,"Topic_Main")
 unique(data_indicators_series$Topic_Main)
 #Seggregate Data as per topic
 #Environment
@@ -78,8 +64,4 @@ head(data_health,5)
 #Poverty
 data_poverty <- subset(data_indicators_series,data_indicators_series$Topic_Main == 'Poverty')
 head(data_poverty,5)
-
-colnames(data_environment)
-data_environment_filtered <- subset(data_environment,IndicatorName == "Access to electricity (% of population)")
-write.csv(data_environment_filtered,"..\\..\\world-development-indicators\\data_environment.csv")
 
